@@ -80,11 +80,12 @@ Flag	            Purpose
 --conda-frontend	**Fixes Mamba Errors:** Forces the use of the stable conda command instead of the faster but sometimes problematic mamba.
 ```
 
-###📦 Key Configuration
+## 📦 Key Configuration
 The file config/config.yaml controls the inputs and model parameters. For running the prediction pipeline, ensure the NEW_MUTATION_FILE parameter is set correctly:
 
 YAML
-# config/config.yaml
+```
+config/config.yaml
 
 # ---------------------------------------------
 # USER INPUT PARAMETERS for Prediction Workflow
@@ -92,9 +93,22 @@ YAML
 NEW_MUTATION_FILE: "user_data/new_sample_muts.txt" # <--- Must point to the user's input file
 ```
 
-###📊 OutputsThe final output is `results/final_user_predictions.csv`, which contains a ranked list of all genes detected in the sample, sorted by the model's predicted driver probability.ColumnDescriptionGeneHugo Symbol of the gene.Prediction_ProbModel's confidence that the gene is a cancer driver (0.0 to 1.0).RankRank order, from highest probability (Rank 1) down.
+## 📊 Outputs
+The final output is `results/final_user_predictions.csv`, which contains a ranked list of all genes detected in the sample, sorted by the model's predicted driver probability.
+```
+Column             Description
+Gene               Hugo Symbol of the gene.
+Prediction_Prob    Model's confidence that the gene is a cancer driver (0.0 to 1.0).
+Rank               Rank order, from highest probability (Rank 1) down.
+```
+```
+Example Output
+Gene        Prediction_Prob
+TP53        0.999407
+GATA3       0.999407
+CDH1        0.997436
+PIK3CA      0.994167
+PTEN        0.987136
+```
 
 
-Example OutputGenePrediction_ProbTP530.999407GATA30.999407CDH10.997436PIK3CA0.994167PTEN0.987136
-
-🧑‍💻 Contributing and License
