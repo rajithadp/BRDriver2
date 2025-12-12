@@ -1,0 +1,30 @@
+# config/config.yaml (FINAL)
+
+# Data files (relative to project root)
+SV_FILE: "data/sv_file.txt"
+MUT_FILE: "data/mutation_file.txt"
+GENE_CDS_LENGTHS:
+  # Example entries (full list needed for your project)
+  TP53: 1182
+  PIK3CA: 3206
+  GATA3: 1374
+  CDH1: 2790
+  PTEN: 1209
+
+# Model Hyperparameters
+TEST_SIZE: 0.3
+RANDOM_SEED: 42
+
+# Gold Standard
+GOLD_STANDARD_DRIVERS:
+  - TP53
+  - PIK3CA
+  - GATA3
+  - CDH1
+  - PTEN
+
+# ---------------------------------------------
+# USER INPUT PARAMETERS for Prediction Workflow
+# ---------------------------------------------
+# USER: Update this path to point to their new mutation file
+NEW_MUTATION_FILE: "user_data/new_sample_muts.txt"

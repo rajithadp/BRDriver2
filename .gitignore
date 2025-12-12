@@ -1,0 +1,30 @@
+# .gitignore
+
+# 1. Conda/Mamba Environments
+# Ignore the hidden .snakemake directory where environments are cached
+.snakemake/
+
+# Ignore environments built with --conda-prefix (like /tmp/snakemake_envs)
+# (If you built them outside the project, this is just a reminder)
+
+# 2. Generated Outputs
+# Ignore all results except potentially the final, human-readable report/predictions
+# Note: You might want to keep the final_user_predictions.csv, but typically you exclude results
+results/*
+!results/final_report.txt
+!results/final_user_predictions.csv
+
+# 3. Intermediate/Large Files
+# Ignore the trained model file and feature matrices
+*.pkl
+*.csv
+!results/final_report.txt
+!results/final_user_predictions.csv
+
+# 4. Python Bytecode
+__pycache__/
+*.pyc
+
+# 5. OS/IDE Files
+.DS_Store
+.idea/
