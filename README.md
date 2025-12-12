@@ -1,27 +1,30 @@
-### 🧬 Breast Cancer Driver Prediction Pipeline (Snakemake)
-This pipeline uses machine learning, built with **Snakemake**, to identify cancer driver genes in new patient samples based on genomic alterations (point mutations and structural variants). It leverages robust feature engineering, SMOTE oversampling, and a trained classification model to provide ranked driver predictions.
+# 🧬 Breast Cancer Driver Prediction Pipeline (Snakemake)
 
-### 🌟 Features
-- **Custom Feature Engineering:** Calculates features like Mutation Position Variance, Variant Allele Frequency (VAF), Truncating Mutation Fraction, and Mutations per Kilobase (Mut/kb).
+This pipeline uses machine learning, built with **Snakemake**, to identify cancer driver genes in new patient samples based on genomic alterations (point mutations and structural variants). It leverages robust feature engineering, SMOTE oversampling, and a trained classification model to provide ranked driver predictions. 
 
-- **Structural Variant Integration:** Incorporates data on total structural variants (N_SV) and in-frame vs. out-of-frame fusions.
+## 🌟 Features
 
-- **Scalable Workflow:** Built on Snakemake for robust, reproducible, and parallel execution.
+* **Custom Feature Engineering:** Calculates features like Mutation Position Variance, Variant Allele Frequency (VAF), Truncating Mutation Fraction, and Mutations per Kilobase (Mut/kb).
+* **Structural Variant Integration:** Incorporates data on total structural variants (N_SV) and in-frame vs. out-of-frame fusions.
+* **Scalable Workflow:** Built on **Snakemake** for robust, reproducible, and parallel execution.
+* **Prediction Mode:** Optimized for predicting driver status on new, unseen patient samples.
 
-- **Prediction Mode:** Optimized for predicting driver status on new, unseen patient samples.
+---
 
-### 🚀 Getting Started
-**Prerequisites**
+## 🚀 Getting Started
 
-**1. Conda/Mamba:** You need a working Conda distribution (Miniconda or Mamba) to manage the environments.
+### Prerequisites
 
-**2. Snakemake:** Install Snakemake globally.
-```
-conda install -c conda-forge snakemake
-```
+1.  **Conda/Mamba:** You need a working Conda distribution (Miniconda or Mamba) to manage the environments.
+2.  **Snakemake:** Install Snakemake globally.
 
-**1. Repository Structure**
-This is the required directory structure.
+    ```bash
+    conda install -c conda-forge snakemake
+    ```
+
+### 1. Repository Structure
+
+This is the required directory structure. Ensure your input files and scripts are placed correctly:
 
 breast_cancer_driver_pipeline/
 
