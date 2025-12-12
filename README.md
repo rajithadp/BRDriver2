@@ -26,8 +26,23 @@ This pipeline uses machine learning, built with **Snakemake**, to identify cance
 
 This is the required directory structure. Ensure your input files and scripts are placed correctly:
 
-breast_cancer_driver_pipeline/ ├── config/ │ └── config.yaml # Pipeline parameters, gene lengths, and gold standard list ├── data/ │ ├── mutation_file.txt # Input training mutations (e.g., TCGA) │ └── sv_file.txt # Input training structural variants (e.g., TCGA) ├── envs/ │ └── ml_env.yaml # Conda environment definition (contains Python, pandas, sklearn, etc.) ├── scripts/ │ ├── 01_feature_engineering.py # Core feature calculation script │ └── 04_predict_new_data.py # Prediction script ├── user_data/ │ └── new_sample_muts.txt # <--- Placeholder for your new patient data ├── results/ # Output directory (created automatically) └── Snakefile # The main workflow definition
-
+```
+breast_cancer_driver_pipeline/
+├── config/
+│     └── config.yaml                # Pipeline parameters, gene lengths, and gold standard list
+├── data/
+│     ├── mutation_file.txt          # Input training mutations (e.g., TCGA)
+│     └── sv_file.txt                # Input training structural variants (e.g., TCGA)
+├── envs/
+│     └── ml_env.yaml                # Conda environment definition (contains Python, pandas, sklearn, etc.)
+├── scripts/
+│     ├── 01_feature_engineering.py  # Core feature calculation script
+│     └── 04_predict_new_data.py     # Prediction script
+├── user_data/
+│     └── new_sample_muts.txt        # <--- Placeholder for your new patient data
+├── results/                         # Output directory (created automatically)
+└── Snakefile                        # The main workflow definition
+```
 
 ### 2. Prepare User Input Data
 
@@ -45,7 +60,7 @@ Run this command once to build features from the `data/` folder, train the model
 
 ```bash
 snakemake results/final_report.txt --use-conda --cores 4
-
+```
 **B. Prediction for New User Samples (Primary Use Case)**
 This command executes the full prediction workflow, using the saved model to generate predictions for the sample specified in config/config.yaml.
 
@@ -57,15 +72,17 @@ snakemake results/final_user_predictions.csv --use-conda --cores 4 --latency-wai
 --conda-prefix /tmp/snakemake_envs \
 --conda-frontend conda
 ```
-Flag	Purpose
---use-conda	Enables environment management via envs/ml_env.yaml.
+```
+Flag	            Purpose
+--use-conda	        Enables environment management via envs/ml_env.yaml.
 --latency-wait 60	**Crucial for Networked Drives (WSL/mnt/c):** Prevents read/write conflicts.
---conda-prefix	**Fixes WSL Errors:** Forces environment creation to a Linux-native directory (/tmp) to avoid "Non-conda folder exists" errors.
+--conda-prefix	    **Fixes WSL Errors:** Forces environment creation to a Linux-native directory (/tmp) to avoid "Non-conda folder exists" errors.
 --conda-frontend	**Fixes Mamba Errors:** Forces the use of the stable conda command instead of the faster but sometimes problematic mamba.
+```
 
 ###📦 Key Configuration
 The file config/config.yaml controls the inputs and model parameters. For running the prediction pipeline, ensure the NEW_MUTATION_FILE parameter is set correctly:
-```
+
 YAML
 # config/config.yaml
 
