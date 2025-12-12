@@ -44,20 +44,22 @@ breast_cancer_driver_pipeline/
 └── Snakefile                   # The main workflow definition
 
 
-**2. Prepare User Input Data**
+### 2. Prepare User Input Data
+
 Place the MAF-formatted mutation file for the new patient sample you want to analyze inside the `user_data/` directory.
 
-**Note:** The file **must** be a standard MAF/TSV file (tab-separated) and include the header comments (starting with #), which the feature engineering script (01_feature_engineering.py) is configured to skip.
+> **Note:** The file **must** be a standard MAF/TSV file (tab-separated) and include the header comments (starting with `#`), which the feature engineering script (`01_feature_engineering.py`) is configured to skip.
 
-### ⚙️ Execution
-This pipeline has two main execution modes: Training (default) and User Prediction (your current goal).
+---
 
-**A. Training and Model Generation (One-time Setup)**
-Run this command once to build features from the data/ folder, train the model, and save it to results/driver_model_final_smote.pkl.
-```
-Bash
+## ⚙️ Execution
+
+### A. Training and Model Generation (One-time Setup)
+
+Run this command once to build features from the `data/` folder, train the model, and save it to `results/driver_model_final_smote.pkl`.
+
+```bash
 snakemake results/final_report.txt --use-conda --cores 4
-```
 
 **B. Prediction for New User Samples (Primary Use Case)**
 This command executes the full prediction workflow, using the saved model to generate predictions for the sample specified in config/config.yaml.
