@@ -26,22 +26,7 @@ This pipeline uses machine learning, built with **Snakemake**, to identify cance
 
 This is the required directory structure. Ensure your input files and scripts are placed correctly:
 
-breast_cancer_driver_pipeline/
-
-├── config/
-│   └── config.yaml             # Pipeline parameters, gene lengths, and gold standard list
-├── data/
-│   ├── mutation_file.txt       # Input training mutations (e.g., TCGA)
-│   └── sv_file.txt             # Input training structural variants (e.g., TCGA)
-├── envs/
-│   └── ml_env.yaml             # Conda environment definition (contains Python, pandas, sklearn, etc.)
-├── scripts/
-│   ├── 01_feature_engineering.py # Core feature calculation script
-│   └── 04_predict_new_data.py    # Prediction script
-├── user_data/
-│   └── new_sample_muts.txt     # <--- Placeholder for your new patient data
-├── results/                    # Output directory (created automatically)
-└── Snakefile                   # The main workflow definition
+breast_cancer_driver_pipeline/ ├── config/ │ └── config.yaml # Pipeline parameters, gene lengths, and gold standard list ├── data/ │ ├── mutation_file.txt # Input training mutations (e.g., TCGA) │ └── sv_file.txt # Input training structural variants (e.g., TCGA) ├── envs/ │ └── ml_env.yaml # Conda environment definition (contains Python, pandas, sklearn, etc.) ├── scripts/ │ ├── 01_feature_engineering.py # Core feature calculation script │ └── 04_predict_new_data.py # Prediction script ├── user_data/ │ └── new_sample_muts.txt # <--- Placeholder for your new patient data ├── results/ # Output directory (created automatically) └── Snakefile # The main workflow definition
 
 
 ### 2. Prepare User Input Data
