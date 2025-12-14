@@ -1,20 +1,21 @@
-## 🏆 Final Model Performance Summary 🏆
-AUPRC on Test Set: 0.9994 (highest probability among top predicted genes)
+## Model Performance Report
+--- 
+ROC AUC Score: 0.8928
+Accuracy: 0.9692
+Driver Recall (Sensitivity): 0.7500
+Passenger Specificity: 0.9694
 
-## 🥇 Top 10 Predicted Cancer Driver Genes (Test Set)
---------------------------------------------------
-| Rank | Gene | Prediction_Prob | True_Label | Is_Known_Driver |
-|:----|:-----|:----------------|:-----------|:----------------|
-| 1 | CDH1 | 0.99941 | 1 | True |
-| 2 | PTEN | 0.99736 | 1 | True |
-| 3 | MAP2K4 | 0.98556 | 0 | False |
-| 4 | DPP6 | 0.98212 | 0 | False |
-| 5 | DLG1 | 0.98115 | 0 | False |
-| 6 | CTCF | 0.95950 | 0 | False |
-| 7 | SF3B1 | 0.95335 | 0 | False |
-| 8 | SPIDR | 0.95312 | 0 | False |
-| 9 | SUZ12 | 0.94708 | 0 | False |
-| 10 | PLCB4 | 0.91358 | 0 | False |
+### Full Classification Report
+|              |   precision |   recall |   f1-score |   support |
+|:-------------|------------:|---------:|-----------:|----------:|
+| Passenger    |      0.9997 |   0.9694 |     0.9843 | 3888.0000 |
+| Driver       |      0.0246 |   0.7500 |     0.0476 |    4.0000 |
+| accuracy     |      0.9692 |   0.9692 |     0.9692 |    0.9692 |
+| macro avg    |      0.5122 |   0.8597 |     0.5160 | 3892.0000 |
+| weighted avg |      0.9987 |   0.9692 |     0.9834 | 3892.0000 |
 
-Total Known Drivers in the Test Set: 4
-Known Drivers correctly prioritized in the Top 50: 2
+### Confusion Matrix
+[[TN, FP],
+ [FN, TP]]
+[[3769  119]
+ [   1    3]]

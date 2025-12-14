@@ -12,5 +12,7 @@ dependencies:
   - xgboost
   - imbalanced-learn
   - tabulate
+  - matplotlib
+  - pip
   # For external feature retrieval (if needed later)
   # - pyensembl

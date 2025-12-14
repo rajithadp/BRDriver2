@@ -68,12 +68,13 @@ rule report_results:
         predictions = "results/test_predictions_final_smote.csv",
         config = "config/config.yaml"
     output:
-        "results/final_report.txt"
+        "results/final_report.txt",
+        roc_plot = "results/roc_curve.png" 
     conda:
         "envs/ml_env.yaml"
     shell:
         """
-        python3 scripts/03_report_results.py {input.predictions} {output}
+        python3 scripts/03_report_results.py {input.predictions} {output[0]} {output.roc_plot}
         """
 
 
