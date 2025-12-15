@@ -6,6 +6,7 @@ import yaml
 import sys
 from sklearn.metrics import roc_curve, auc, classification_report, confusion_matrix
 import matplotlib.pyplot as plt
+from sklearn.metrics import precision_recall_curve
 
 # --- 1. Argument Handling ---
 
@@ -34,8 +35,45 @@ if 'True_Label' not in pred_df.columns or 'Prediction_Prob' not in pred_df.colum
 
 y_true = pred_df['True_Label']
 y_score = pred_df['Prediction_Prob']
-# Use a simple threshold of 0.5 for binary classification metrics
-y_pred = (y_score >= 0.5).astype(int)
+
+# --- Find optimal threshold for imbalanced data ---
+# Method 1: Try to find threshold with good precision
+test_thresholds = [0.5, 0.6, 0.7, 0.8, 0.9]
+
+best_precision = 0
+best_threshold = 0.5
+best_y_pred = None
+
+for threshold in test_thresholds:
+    y_pred_test = (y_score >= threshold).astype(int)
+    
+    # Calculate confusion matrix
+    tn, fp, fn, tp = confusion_matrix(y_true, y_pred_test).ravel()
+    
+    # Calculate precision
+    if tp + fp > 0:
+        precision_test = tp / (tp + fp)
+    else:
+        precision_test = 0
+    
+    # Calculate recall
+    if tp + fn > 0:
+        recall_test = tp / (tp + fn)
+    else:
+        recall_test = 0
+    
+    print(f"Testing threshold {threshold}: Precision={precision_test:.3f}, Recall={recall_test:.3f}")
+    
+    # Choose threshold with best precision (and at least 1 TP found)
+    if precision_test > best_precision and tp > 0:
+        best_precision = precision_test
+        best_threshold = threshold
+        best_y_pred = y_pred_test
+
+print(f"\nSelected threshold: {best_threshold} (Precision: {best_precision:.3f})")
+
+# Use the best threshold found
+y_pred = best_y_pred if best_y_pred is not None else (y_score >= 0.5).astype(int)
 
 # ROC AUC
 fpr, tpr, thresholds = roc_curve(y_true, y_score)

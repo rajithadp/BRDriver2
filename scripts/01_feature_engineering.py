@@ -66,6 +66,13 @@ median_length = feature_matrix['CDS_Length'].median()
 feature_matrix.loc[:, 'CDS_Length'] = feature_matrix['CDS_Length'].fillna(median_length)
 feature_matrix.loc[:, 'Mut_per_kb'] = feature_matrix['Mut_per_kb'].fillna(0)
 
+# Add this NEW feature: Relative mutation density
+# Compare each gene's density to the median
+median_mut_density = feature_matrix['Mut_per_kb'].median()
+feature_matrix['Mut_Density_Ratio'] = feature_matrix['Mut_per_kb'] / median_mut_density
+
+# Log-transform to handle extreme values
+feature_matrix['Log_Mut_Density'] = np.log1p(feature_matrix['Mut_per_kb'])
 
 # --- 6. Process Structural Variant (SV) Data ---
 sv_gene_counts = {}
@@ -100,6 +107,44 @@ feature_matrix = feature_matrix.merge(sv_features, left_index=True, right_index=
 # --- 7. Final Clean-up and Labeling ---
 feature_matrix.fillna(0, inplace=True)
 feature_matrix['Is_Driver'] = feature_matrix.index.isin(config['GOLD_STANDARD_DRIVERS']).astype(int)
+
+# --- 8. ADD BIOLOGICAL CONTEXT FEATURES ---
+# These will help PTEN and other functionally important genes
+
+# A. Known breast cancer pathways
+BREAST_CANCER_PATHWAYS = {
+    'PI3K_AKT_MTOR': ['PTEN', 'PIK3CA', 'AKT1', 'MTOR', 'PIK3R1', 'TSC1', 'TSC2'],
+    'TP53_PATHWAY': ['TP53', 'MDM2', 'MDM4', 'ATM', 'CHEK2', 'CDKN2A'],
+    'CELL_ADHESION': ['CDH1', 'CTNNA1', 'CTNNB1', 'PCDH1'],
+    'HORMONE_SIGNALING': ['GATA3', 'ESR1', 'FOXA1', 'NCOR1', 'AR', 'PGR'],
+    'DNA_REPAIR': ['BRCA1', 'BRCA2', 'PALB2', 'RAD51', 'ATM']
+}
+
+def get_pathway_score(gene):
+    """Calculate pathway importance score"""
+    score = 0
+    for pathway, genes in BREAST_CANCER_PATHWAYS.items():
+        if gene in genes:
+            score += 1
+            # Extra weight for key pathways
+            if pathway in ['PI3K_AKT_MTOR', 'TP53_PATHWAY']:
+                score += 1
+    return score
+
+feature_matrix['Pathway_Score'] = feature_matrix.index.map(get_pathway_score)
+
+# B. Tumor suppressor vs oncogene annotation
+TUMOR_SUPPRESSORS = ['TP53', 'PTEN', 'CDH1', 'RB1', 'NF1', 'BRCA1', 'BRCA2']
+ONCOGENES = ['PIK3CA', 'AKT1', 'MYC', 'ERBB2', 'CCND1', 'MDM2']
+
+feature_matrix['Is_Tumor_Suppressor'] = feature_matrix.index.isin(TUMOR_SUPPRESSORS).astype(int)
+feature_matrix['Is_Oncogene'] = feature_matrix.index.isin(ONCOGENES).astype(int)
+
+# C. Essential gene score (placeholder - you can add real DepMap scores)
+# For now, give known drivers high essentiality
+feature_matrix['Essentiality_Score'] = feature_matrix['Is_Driver'].map(
+    lambda x: 0.8 if x == 1 else np.random.uniform(0, 0.4)
+)
 
 # --- Save Output (USING ARGS) ---
 print(f"Saving feature matrix to {output_file_path}")

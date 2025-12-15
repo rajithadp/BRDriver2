@@ -4,12 +4,16 @@
 SV_FILE: "data/sv_file.txt"
 MUT_FILE: "data/mutation_file.txt"
 GENE_CDS_LENGTHS:
-  # Example entries (full list needed for your project)
   TP53: 1182
   PIK3CA: 3206
   GATA3: 1374
   CDH1: 2790
   PTEN: 1209
+  NCOR1: 8643    # Your novel candidate
+  # Add more based on your top_mutated output
+  TTN: 109224    # Often highly mutated but passenger
+  MUC16: 45813
+  RYR2: 15180
 
 # Model Hyperparameters
 TEST_SIZE: 0.3

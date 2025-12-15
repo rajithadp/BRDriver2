@@ -9,7 +9,7 @@ configfile: "config/config.yaml"
 # --- GLOBAL VARIABLES FOR PREDICTION WORKFLOW ---
 # These are fixed paths for internal and user outputs
 USER_FEATURE_MATRIX = "results/temp_user_features.csv" 
-FINAL_MODEL_PATH = "results/driver_model_final_smote.pkl"
+FINAL_MODEL_PATH = "results/driver_model_final_imbalance.pkl" 
 FINAL_USER_PREDICTIONS = "results/final_user_predictions.csv"
 
 # Ensure the results directory exists
@@ -22,6 +22,7 @@ shell("mkdir -p results")
 rule all:
     input:
         "results/final_report.txt",
+        "results/analysis_report.txt" 
 
 # #################################################
 # ### A. TRAINING WORKFLOW (Internal Validation) ###
@@ -51,8 +52,8 @@ rule model_training:
     input:
         "results/feature_matrix.csv"
     output:
-        model = FINAL_MODEL_PATH,
-        predictions = "results/test_predictions_final_smote.csv"
+        model = "results/driver_model_final_imbalance.pkl",
+        predictions = "results/test_predictions_cv.csv"
     params:
         config_file = "config/config.yaml"
     conda:
@@ -65,7 +66,7 @@ rule model_training:
 # --------------------------
 rule report_results:
     input:
-        predictions = "results/test_predictions_final_smote.csv",
+        predictions = "results/test_predictions_cv.csv",
         config = "config/config.yaml"
     output:
         "results/final_report.txt",
@@ -76,6 +77,22 @@ rule report_results:
         """
         python3 scripts/03_report_results.py {input.predictions} {output[0]} {output.roc_plot}
         """
+
+
+# Rule: analyze_results
+# --------------------------
+rule analyze_results:
+    input:
+        features = "results/feature_matrix.csv",
+        model = "results/driver_model_final_imbalance.pkl",
+        cv_predictions = "results/test_predictions_cv.csv"
+    output:
+        analysis_report = "results/analysis_report.txt",
+        novel_candidates = "results/novel_candidates.csv"
+    conda:
+        "envs/ml_env.yaml"
+    script:
+        "scripts/05_analyze_results.py"
 
 
 # #################################################
