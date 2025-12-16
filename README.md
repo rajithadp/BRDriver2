@@ -90,8 +90,8 @@ snakemake --cores 4 --latency-wait 10    # Production run
 
 ### Predict on New Data
 
-1. Place your mutation file in user_data/new_sample_muts.txt
-2. Update config/config.yaml with the file path
+1. Place your mutation file in `user_data/new_sample_muts.txt`
+2. Update `config/config.yaml` with the file path
 3. Run prediction workflow:
 
 ```bash
@@ -102,27 +102,27 @@ snakemake --cores 1 predict_user_sample
 
 ### Mutation Features
 
-- N_mut: Total mutation count
-- Mut_per_kb: Mutation density (key innovation)
-- Median_VAF: Variant allele frequency
-- Mutation_Position_Variance: Spatial clustering
-- Fraction_Truncating: Loss-of-function mutations
+- **N_mut:** Total mutation count
+- **Mut_per_kb:** Mutation density (key innovation)
+- **Median_VAF:** Variant allele frequency
+- **Mutation_Position_Variance:** Spatial clustering
+- **Fraction_Truncating:** Loss-of-function mutations
 
 ### Structural Variant Features
 
-- Fraction_InFrame_SV: Functional fusion events
-- N_Partners: Gene interaction network centrality
+- **Fraction_InFrame_SV:** Functional fusion events
+- **N_Partners:** Gene interaction network centrality
 
 ### Biological Context Features
 
-- Pathway_Score: Cancer pathway membership
-- Is_Tumor_Suppressor/Oncogene: Functional annotation
+- **Pathway_Score:** Cancer pathway membership
+- **Is_Tumor_Suppressor/Oncogene:** Functional annotation
 
 
 ## 🤖 Model Details
 
 ### Algorithm: XGBoost with Imbalance Handling
-
+```bash
 XGBClassifier(
     objective='binary:logistic',
     scale_pos_weight=100,  # Severe class imbalance (5:19451)
@@ -131,18 +131,19 @@ XGBClassifier(
     learning_rate=0.05,
     eval_metric='logloss'
 )
+```
 
 ### Class Imbalance Strategies
 
-1. SMOTE/ADASYN: Adaptive oversampling for tiny driver class
-2. Stratified K-Fold: 3-fold CV for reliable evaluation
-3. Cost-sensitive learning: 100× penalty for missing drivers
+1. **SMOTE/ADASYN:** Adaptive oversampling for tiny driver class
+2. **Stratified K-Fold:** 3-fold CV for reliable evaluation
+3. **Cost-sensitive learning:** 100× penalty for missing drivers
 
 ### Feature Importance (Top 3)
 
-1. N_mut (42.4%) - Mutation burden
-2. N_Partners (26.3%) - Network interactions
-3. Mut_per_kb (21.0%) - Mutation density **(key innovation)**
+1. **N_mut** (42.4%) - Mutation burden
+2. **N_Partners** (26.3%) - Network interactions
+3. **Mut_per_kb** (21.0%) - Mutation density **(key innovation)**
 
 
 ## 📊 Results Interpretation
@@ -163,7 +164,7 @@ PTEN	68	56	1.000	PI3K pathway antagonist
 
 
 ## 📁 Output Files
-
+```
 results/
 ├── driver_model_final_imbalance.pkl    # Trained model
 ├── test_predictions_cv.csv            # Cross-validation predictions
@@ -172,11 +173,11 @@ results/
 ├── novel_candidates.csv               # Novel driver predictions
 ├── roc_curve.png                      # ROC visualization
 └── feature_matrix.csv                 # Engineered features
-
+```
 
 ## 🔧 Configuration
-Edit config/config.yaml:
-
+Edit `config/config.yaml`:
+```yaml
 #Gold standard drivers
 GOLD_STANDARD_DRIVERS:
   - TP53
@@ -191,18 +192,18 @@ RANDOM_SEED: 42
 
 #User prediction
 NEW_MUTATION_FILE: "user_data/new_sample_muts.txt"
-
+```
 
 ## 🛠️ Development
 
 ### Adding New Features
 
-1. Modify scripts/01_feature_engineering.py
-2. Update feature list in scripts/02_model_training.py
-3. Re-run pipeline: snakemake --cores 1 --delete-all-output
+1. Modify `scripts/01_feature_engineering.py`
+2. Update feature list in `scripts/02_model_training.py`
+3. Re-run pipeline: `snakemake --cores 1 --delete-all-output`
 
 ### Testing
-
+```bash
 #Unit tests
 python -m pytest tests/
 
@@ -211,13 +212,14 @@ snakemake --cores 1 --dry-run
 
 #Performance validation
 python scripts/03_report_results.py results/test_predictions_cv.csv test_report.txt test_plot.png
+```
 
 ### Contributing
 
 1. Fork the repository
-2. Create a feature branch (git checkout -b feature/improvement)
-3. Commit changes (git commit -am 'Add new feature')
-4. Push to branch (git push origin feature/improvement)
+2. Create a feature branch (`git checkout -b feature/improvement`)
+3. Commit changes (`git commit -am 'Add new feature'`)
+4. Push to branch (`git push origin feature/improvement`)
 5. Create Pull Request
 
 
