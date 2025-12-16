@@ -150,12 +150,13 @@ XGBClassifier(
 
 ### All Drivers Found:
 
-Gene	Mutations	Mut/kb	Probability	Biological Role
-TP53	372	315	1.000	Tumor suppressor (#1 in cancer)
-PIK3CA	416	130	0.999	Oncogene, PI3K pathway
-GATA3	140	102	1.000	Luminal subtype master regulator
-CDH1	141	51	0.999	Invasion/metastasis suppressor
-PTEN	68	56	1.000	PI3K pathway antagonist
+| Gene | Mutations | Mut/kb | Probability | Biological Role |
+| ---- | --------- | ------ | ----------- | --------------- |
+TP53 | 372 | 315 | 1.000 | Tumor suppressor (#1 in cancer) |
+PIK3CA | 416 | 130 | 0.999 | Oncogene, PI3K pathway |
+GATA3 | 140 | 102 | 1.000 | Luminal subtype master regulator |
+CDH1 | 141 | 51 | 0.999 | Invasion/metastasis suppressor |
+PTEN | 68 | 56 | 1.000 | PI3K | pathway antagonist |
 
 ### Why PTEN Was Initially Missed (and Fixed):
 - **Initial model:** Used only mutation count → PTEN (68) vs others (140-416)
