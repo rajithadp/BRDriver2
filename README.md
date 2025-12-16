@@ -2,10 +2,10 @@
 
 **A machine learning pipeline for identifying breast cancer driver genes with 100% precision and recall**
 
-https://img.shields.io/badge/snakemake-%E2%89%A57.32.0-brightgreen.svg
-https://img.shields.io/badge/python-3.9-blue.svg
-https://img.shields.io/badge/License-MIT-yellow.svg
-https://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXX-blue
+[![Snakemake](https://img.shields.io/badge/snakemake-%E2%89%A57.32.0-brightgreen.svg)](https://snakemake.github.io)
+[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXX-blue)](https://doi.org/10.5281/zenodo.XXXXXX)
 
 
 ## 🎯 Key Achievements
@@ -19,12 +19,13 @@ https://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXX-blue
 
 ## 📊 Model Performance
 
-**Metric**	        **Value**	    **Significance**
-**Precision**	    100%	    No false positive predictions
-**Recall**	        100%	    All known drivers found
-**CV AUPRC**	    0.9429	    Excellent class separation
-**ROC AUC**	        0.9998	    Near-perfect discrimination
-**Specificity**	    100%	    All passengers correctly identified
+| Metric | Value | Significance |
+|--------|-------|--------------|
+| **Precision** | 100% | No false positive predictions |
+| **Recall** | 100% | All known drivers found |
+| **CV AUPRC** | 0.9429 | Excellent class separation |
+| **ROC AUC** | 0.9998 | Near-perfect discrimination |
+| **Specificity** | 100% | All passengers correctly identified |
 
 **Identified Drivers:** TP53, PIK3CA, GATA3, CDH1, PTEN (all with >0.999 probability)
 
@@ -67,23 +68,25 @@ BRDriver2/
 - 8GB RAM minimum
 
 ### Installation
-
-#Clone repository
+```bash
+# Clone repository
 git clone https://github.com/yourusername/BRDriver2.git
 cd BRDriver2
 
 #Create conda environment
 conda env create -f envs/ml_env.yaml
 conda activate ml_env
+```
 
 ### Run Complete Pipeline
-
+```bash
 #Execute full workflow
 snakemake --use-conda --cores 4
 
 #For development
 snakemake --cores 1 --delete-all-output  # Clean run
 snakemake --cores 4 --latency-wait 10    # Production run
+```
 
 ### Predict on New Data
 
