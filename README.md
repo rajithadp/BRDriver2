@@ -5,7 +5,7 @@
 [![Snakemake](https://img.shields.io/badge/snakemake-%E2%89%A57.32.0-brightgreen.svg)](https://snakemake.github.io)
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXX-blue)](https://doi.org/10.5281/zenodo.XXXXXX)
+
 
 
 ## 🎯 Key Achievements
@@ -42,7 +42,7 @@ This model discovered that **mutation density (mutations/kb) is more important t
 
 
 ## 🏗️ Project Architecture
-
+```
 BRDriver2/
 ├── Snakefile                    # Main workflow orchestrator
 ├── config/
@@ -57,7 +57,7 @@ BRDriver2/
 │   └── ml_env.yaml            # Reproducible conda environment
 ├── data/                       # Input mutation and SV files
 └── results/                    # Output models, predictions, and reports
-
+```
 
 ## 🚀 Quick Start
 
@@ -94,8 +94,9 @@ snakemake --cores 4 --latency-wait 10    # Production run
 2. Update config/config.yaml with the file path
 3. Run prediction workflow:
 
+```bash
 snakemake --cores 1 predict_user_sample
-
+```
 
 ## 📈 Features Engineered
 
